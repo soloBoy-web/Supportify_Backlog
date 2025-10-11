@@ -1,0 +1,53 @@
+{% extends '_base.html' %}
+
+{% block title %}История сообщений{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>История отправленных сообщений</h1>
+
+    {% if logs %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Чат</th>
+                    <th>Статус</th>
+                    <th>Сообщение</th>
+                    <th>Детали</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.created_at|date:"d.m.Y H:i" }}</td>
+                    <td>{{ log.chat.name }}</td>
+                    <td>
+                        <span class="badge {% if log.status == 'success' %}bg-success{% else %}bg-danger{% endif %}">
+                            {{ log.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <small>{{ log.message|truncatewords:10 }}</small>
+                    </td>
+                    <td>
+                        {% if log.status_code %}
+                            <small>HTTP {{ log.status_code }}</small>
+                        {% endif %}
+                        {% if log.error_message %}
+                            <small class="text-danger">{{ log.error_message|truncatewords:5 }}</small>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        Нет данных об отправленных сообщениях.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

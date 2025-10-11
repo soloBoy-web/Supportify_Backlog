@@ -1,0 +1,74 @@
+<!-- app_next/templates/app_next/register.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Регистрация</title>
+    <style>
+        .alert { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .alert-error { background-color: #ffebee; color: #c62828; }
+        .alert-success { background-color: #e8f5e8; color: #2e7d32; }
+        form { max-width: 400px; margin: 20px auto; }
+        label { display: block; margin: 10px 0 5px; }
+        input { width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ddd; }
+        button { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer; }
+        .helptext { font-size: 12px; color: #666; display: block; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Регистрация</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div>
+            <label for="id_username">Имя пользователя:</label>
+            {{ form.username }}
+            <span class="helptext">Обязательное поле. Не более 150 символов. Только буквы, цифры и @/./+/-/_.</span>
+        </div>
+
+        <div>
+            <label for="id_email">Email:</label>
+            {{ form.email }}
+        </div>
+
+        <div>
+            <label for="id_first_name">Имя:</label>
+            {{ form.first_name }}
+        </div>
+
+        <div>
+            <label for="id_last_name">Фамилия:</label>
+            {{ form.last_name }}
+        </div>
+
+        <div>
+            <label for="id_password1">Пароль:</label>
+            {{ form.password1 }}
+            <span class="helptext">
+                - Пароль не должен быть слишком похож на другую вашу личную информацию.<br>
+                - Пароль должен содержать как минимум 8 символов.<br>
+                - Пароль не должен быть слишком простым.<br>
+                - Пароль не может состоять только из цифр.
+            </span>
+        </div>
+
+        <div>
+            <label for="id_password2">Подтверждение пароля:</label>
+            {{ form.password2 }}
+            <span class="helptext">Для подтверждения введите, пожалуйста, пароль ещё раз.</span>
+        </div>
+
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+
+    <p>Уже есть аккаунт? <a href="{% url 'app_next:login' %}">Войдите здесь</a></p>
+</body>
+</html>

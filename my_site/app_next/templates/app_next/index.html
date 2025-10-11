@@ -1,0 +1,26 @@
+{% extends 'app_main/_base.html' %}
+
+{% block title %}Messenger Bot{% endblock %}
+
+{% block header %}Messenger Bot{% endblock %}
+
+{% block body %}
+<section>
+    <h2>Добро пожаловать в Messenger Bot</h2>
+    <p>Система для отправки сообщений и ссылок в различные чаты и мессенджеры.</p>
+
+    {% if not user.is_authenticated %}
+    <div style="text-align: center; margin-top: 30px;">
+        <p>Для работы с системой необходимо войти в аккаунт:</p>
+        <a href="{% url 'app_next:login' %}" class="button">Войти в систему</a>
+        <a href="{% url 'app_next:register' %}" class="button button-success">Зарегистрироваться</a>
+    </div>
+    {% else %}
+    <div style="text-align: center; margin-top: 30px;">
+        <p>Вы уже вошли в систему. Перейдите в панель управления для работы:</p>
+        <a href="{% url 'app_next:welcome' %}" class="button">Панель управления</a>
+        <a href="{% url 'app_next:send_message' %}" class="button button-warning">Отправить сообщение</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

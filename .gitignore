@@ -1,0 +1,47 @@
+# НИКОГДА не добавлять в git!
+my_site/.env
+
+# База данных SQLite
+*.sqlite3
+*.db
+*.db-journal
+
+# Файлы Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyCharm файлы
+.idea/
+*.iws
+*.iml
+*.ipr
+
+
+# Логи
+*.log
+logs/
+
+# Временные файлы
+*.tmp
+*.temp
+
+*.idea
+*.sqlite3

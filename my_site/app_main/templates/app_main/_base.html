@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block head %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        header, nav, main, section, footer {
+            margin: 0 auto 20px;
+            max-width: 1000px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav li {
+            margin: 5px 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #2980b9;
+            background-color: #f8f9fa;
+            text-decoration: none;
+        }
+
+        .user-info {
+            background: #ecf0f1;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .messages {
+            margin: 15px auto;
+            max-width: 1000px;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        .button {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .button:hover {
+            background: #2980b9;
+            color: white;
+            text-decoration: none;
+        }
+
+        .button-warning {
+            background: #e67e22;
+        }
+
+        .button-warning:hover {
+            background: #d35400;
+        }
+
+        .button-success {
+            background: #27ae60;
+        }
+
+        .button-success:hover {
+            background: #219a52;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 15px 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+
+        .form-group textarea {
+    min-height: 120px;
+    font-family: monospace;
+    resize: vertical;
+}
+
+
+input[type="checkbox"] {
+    transform: scale(1.2);
+}
+
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav li {
+        margin: 5px 0;
+    }
+}
+
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{% block header %}Мой Проект{% endblock %}</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'app_main:index' %}">Главная</a></li>
+                <li><a href="{% url 'app_next:index' %}">Messenger Bot</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'app_next:welcome' %}">Панель управления</a></li>
+                    <li><a href="{% url 'app_next:send_message' %}">Отправить сообщение</a></li>
+                    <li>
+                <a href="#" style="color: #ccc; cursor: not-allowed; text-decoration: none;"
+                onclick="return false;"
+                 title="Раздел в разработке">
+                     ⚠️ История
+                </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        {% if user.is_authenticated %}
+        <div class="user-info">
+            Привет, <strong>{{ user.username }}</strong>!
+            <a href="{% url 'app_next:logout' %}" class="button" style="padding: 5px 10px; margin-left: 10px; font-size: 0.9em;">Выйти</a>
+        </div>
+        {% else %}
+        <div class="user-info">
+            <a href="{% url 'app_next:login' %}" class="button" style="padding: 5px 10px; margin: 0 5px; font-size: 0.9em;">Войти</a>
+            <a href="{% url 'app_next:register' %}" class="button button-success" style="padding: 5px 10px; margin: 0 5px; font-size: 0.9em;">Регистрация</a>
+        </div>
+        {% endif %}
+    </header>
+
+    <main>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block body %}
+        {% endblock %}
+    </main>
+
+
+</body>
+</html>

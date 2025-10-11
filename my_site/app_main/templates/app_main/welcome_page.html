@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        section {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <h2>{{ title }}</h2>
+        <p>{{ content }}</p>
+        <p>{{ additional_content }}</p>
+        <a href="{% url 'app_next:register' %}">← Зарегаться</a>
+        <a href="{% url 'app_main:index' %}">← Вернуться на главную</a>
+
+    </section>
+</body>
+</html>

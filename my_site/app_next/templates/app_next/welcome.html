@@ -1,0 +1,56 @@
+{% extends 'app_main/_base.html' %}
+
+{% block title %}Панель управления - Messenger Bot{% endblock %}
+
+{% block header %}Панель управления{% endblock %}
+
+{% block body %}
+<section>
+    <h2>Добро пожаловать, {{ user_username }}!</h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+        <div class="card">
+            <h3>Активные чаты</h3>
+            <p style="font-size: 2em; color: #3498db; text-align: center;">{{ active_chats_count }}</p>
+        </div>
+        <div class="card">
+            <h3>Всего сообщений</h3>
+            <p style="font-size: 2em; color: #27ae60; text-align: center;">{{ total_messages }}</p>
+        </div>
+        <div class="card">
+            <h3>Ваши сообщения</h3>
+            <p style="font-size: 2em; color: #e67e22; text-align: center;">{{ user_messages }}</p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Отправка сообщений</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+        <div class="card" style="text-align: center;">
+            <h3>📨 В выбранные чаты</h3>
+            <p>Отправьте сообщение только в нужные вам чаты</p>
+            <a href="{% url 'app_next:send_message' %}" class="button" style="width: 100%; margin-top: 15px;">
+                Выбрать чаты
+            </a>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <h3>🌐 Во все чаты</h3>
+            <p>Отправьте сообщение сразу во все активные чаты</p>
+            <a href="{% url 'app_next:send_to_all' %}" class="button button-warning" style="width: 100%; margin-top: 15px;">
+                Отправить всем
+            </a>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Другие действия</h2>
+    <div style="text-align: center;">
+        <a href="{% url 'app_next:message_history' %}" class="button button-success">
+            📊 История сообщений
+        </a>
+    </div>
+</section>
+{% endblock %}

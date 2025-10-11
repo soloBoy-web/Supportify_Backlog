@@ -1,0 +1,10 @@
+{% extends "app_main/_base.html" %}
+
+{% block title %}цвета{% endblock %}
+
+{% block body %}
+<p>Второе</p>
+<li><a href="{% url 'app_main:index' %}">← Вернуться на главную</a></li>
+<li><a href="{% url 'app_next:index' %}">→ Перейти в другое приложение</a></li>
+
+{% endblock %}
