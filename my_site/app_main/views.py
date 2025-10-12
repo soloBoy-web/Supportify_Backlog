@@ -21,6 +21,4 @@ def welcome_page(request):
         'content': 'Это базовый HTML шаблон, который включает в себя все основные элементы веб-страницы.',
         'additional_content': 'Вы можете использовать его как отправную точку для создания своего сайта.'
     }
-    return render(request, 'app_main/welcome_page.html', context)
-
-
+    return render(request=request, template_name='app_main/welcome_page.html', context=context)
