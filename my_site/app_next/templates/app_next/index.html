@@ -1,12 +1,10 @@
 {% extends 'app_main/_base.html' %}
 
-{% block title %}Messenger Bot{% endblock %}
-
-{% block header %}Messenger Bot{% endblock %}
+{% block title %}Messenger{% endblock %}
 
 {% block body %}
 <section>
-    <h2>Добро пожаловать в Messenger Bot</h2>
+    <h2>Добро пожаловать в SuppMessenger </h2>
     <p>Система для отправки сообщений и ссылок в различные чаты и мессенджеры.</p>
 
     {% if not user.is_authenticated %}

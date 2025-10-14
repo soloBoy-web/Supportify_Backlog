@@ -224,11 +224,10 @@ input[type="checkbox"] {
 </head>
 <body>
     <header>
-        <h1>{% block header %}Мой Проект{% endblock %}</h1>
         <nav>
             <ul>
                 <li><a href="{% url 'app_main:index' %}">Главная</a></li>
-                <li><a href="{% url 'app_next:index' %}">Messenger Bot</a></li>
+                <li><a href="{% url 'app_next:index' %}">SuppMessenger</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'app_next:welcome' %}">Панель управления</a></li>
                     <li><a href="{% url 'app_next:send_message' %}">Отправить сообщение</a></li>
