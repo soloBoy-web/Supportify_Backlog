@@ -45,3 +45,6 @@ logs/
 
 *.idea
 *.sqlite3
+staticfiles
+.venv
+.env
