@@ -1,9 +1,49 @@
 {% extends "app_main/_base.html" %}
 
-{% block title %}Прайс{% endblock %}
+{% block title %}Прайс - Supportify.Backlog{% endblock %}
 
 {% block body %}
-<p>Второе</p>
+<div class="price-container">
+    <h2>💰 Тарифы Supportify.Backlog</h2>
+    <p class="price-subtitle">Отправляйте сообщения во все мессенджеры из одного окна</p>
+
+    <div class="price-table">
+        <div class="price-category">
+            <h3>🚀 START</h3>
+            <div class="price-amount">990 руб./месяц</div>
+            <ul>
+                <li>3 канала</li>
+                <li>500 сообщений</li>
+                <li>Базовые шаблоны</li>
+                <li>Поддержка по email</li>
+            </ul>
+        </div>
+
+        <div class="price-category popular">
+            <h3>🔥 PRO</h3>
+            <div class="price-amount">2990 руб./месяц</div>
+            <ul>
+                <li>10 каналов</li>
+                <li>5000 сообщений</li>
+                <li>Планировщик</li>
+                <li>Приоритетная поддержка</li>
+            </ul>
+        </div>
+
+        <div class="price-category">
+            <h3>🏢 BUSINESS</h3>
+            <div class="price-amount">6990 руб./месяц</div>
+            <ul>
+                <li>Безлимитные каналы</li>
+                <li>25000 сообщений</li>
+                <li>Командный доступ</li>
+                <li>API доступ</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
 <li><a href="{% url 'app_main:index' %}">← Вернуться на главную</a></li>
 <li><a href="{% url 'app_next:index' %}">→ Перейти в другое приложение</a></li>
 
