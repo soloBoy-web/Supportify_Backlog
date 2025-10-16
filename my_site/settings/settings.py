@@ -109,8 +109,34 @@ USE_TZ = True    # Использование временных зон
 
 
 # Статические файлы (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
+# Настройки статических файлов
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Дополнительные директории со статикой
+STATICFILES_DIRS = [
+]
+
+# Для production
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 
 # Автоматическое поле по умолчанию для первичных ключей
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Можно раскомментировать для вывода подробных логов при отладке
+# DEBUG = True
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'DEBUG',
+#     },
+# }
