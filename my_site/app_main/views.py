@@ -28,6 +28,4 @@ def welcome_page(request):
         ],
         'additional_content': 'И наблюдайте, как ваше сообщение моментально появляется во всех выбранных местах! ✨'
     }
-    return render(request, 'app_main/welcome_page.html', context)
-
-
+    return render(request=request, template_name='app_main/welcome_page.html', context=context)
