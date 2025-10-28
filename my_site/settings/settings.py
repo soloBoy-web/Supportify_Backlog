@@ -70,11 +70,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'settings.wsgi.application'
 
 
-# База данных
+# База данных (PostgreSQL)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Используем SQLite
-        'NAME': BASE_DIR / 'db.sqlite3',         # Путь к файлу базы данных
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'postgres'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'postgres'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
@@ -105,8 +109,34 @@ USE_TZ = True    # Использование временных зон
 
 
 # Статические файлы (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
+# Настройки статических файлов
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Дополнительные директории со статикой
+STATICFILES_DIRS = [
+]
+
+# Для production
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 
 # Автоматическое поле по умолчанию для первичных ключей
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Можно раскомментировать для вывода подробных логов при отладке
+# DEBUG = True
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'DEBUG',
+#     },
+# }

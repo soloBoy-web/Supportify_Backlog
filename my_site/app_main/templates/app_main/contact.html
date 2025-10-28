@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты - Supportify_Backlog</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        header, nav, main, section, footer {
+            margin: 0 auto 20px;
+            max-width: 1000px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-info {
+            padding: 15px;
+        }
+
+        .contact-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .contact-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #3498db;
+            text-decoration: none;
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .contact-link:hover {
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+        }
+
+        .contact-form {
+            padding: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #2c3e50;
+            transition: background 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #d5dbdb;
+            text-decoration: none;
+            color: #2c3e50;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .social-links {
+                flex-direction: column;
+            }
+
+            .social-link {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Supportify.Backlog</h1>
+        <p>Свяжитесь с нами - мы всегда на связи</p>
+    </header>
+    <main>
+        <section>
+            <h2>Контакты</h2>
+            <p>Есть вопросы или предложения? Мы будем рады помочь вам!</p>
+
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <h3>📧 GitHub</h3>
+                        <p>Посмотрите наши проекты и исходный код</p>
+                        <a href="https://github.com/soloBoy-web" class="contact-link" target="_blank">
+                            <span class="icon">💻</span>
+                            soloBoy-web
+                        </a>
+                    </div>
+
+                    <div class="contact-card">
+                        <h3>📱 Telegram</h3>
+                        <p>Напишите нам напрямую для быстрой связи</p>
+                        <a href="https://t.me/Sergey_kozgov" class="contact-link" target="_blank">
+                            <span class="icon">✈️</span>
+                            @Sergey_kozgov
+                        </a>
+                    </div>
+
+                    <div class="contact-card">
+                        <h3>🕒 Время ответа</h3>
+                        <p>Мы стараемся отвечать в течение 1-2 часов в рабочее время</p>
+                        <p><strong>Часы работы:</strong> Пн-Пт, 9:00-18:00</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
+<li><a href="{% url 'app_main:index' %}">← Вернуться на главную</a></li>
+<li><a href="{% url 'app_next:index' %}">→ Перейти в другое приложение</a></li>
+
+
+<footer>
+        <p>&copy; 2025 Supportify_Backlog. Все права защищены.</p>
+</footer>

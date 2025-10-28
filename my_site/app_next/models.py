@@ -21,6 +21,8 @@ class Chat(models.Model):
         return f"{self.name} ({self.platform})"
 
 
+# служит для отслеживания и логирования всех сообщений в чат-системе,
+# включая их статусы и возможные ошибки.
 class MessageLog(models.Model):
     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
     message = models.TextField()

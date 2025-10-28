@@ -1,0 +1,60 @@
+# Шаблон для рестарта контенеров
+x-restart_policy: &default_restart_policy
+  condition: on-failure
+  delay: 30s       # Задержка перед перезапуском 30 секунд
+  max_attempts: 0  # неограниченное число попыток
+  window: 90s      # окно времени для подсчёта попыток
+
+
+services:
+  app:
+    build: 
+      dockerfile: ./ci/Dockerfile
+      context: ./
+    restart: "always"
+    depends_on:
+      - pg
+    environment:
+      RESOURCES_INI_PATH: ${RESOURCES_INI_PATH:-./conf/container.ini}
+      DB_HOST: ${DB_HOST:-pg}
+      DB_PORT: ${DB_PORT:-5432}
+    deploy:
+      resources:
+        limits:
+          memory: ${APP_LIMITS_MEMORY:-1024}
+        reservations:
+          memory: ${APP_LIMITS_RESERVATIONS:-512}
+      restart_policy:
+        <<: *default_restart_policy
+    sysctls:
+      - net.core.somaxconn=512
+    ports:
+      - "${APP_PORT_OUT}:${APP_PORT}"
+    volumes:
+      - .:/app
+    command: python my_site/manage.py runserver 0.0.0.0:${APP_PORT}
+
+  pg:
+    image: postgres:14
+    restart: "always"
+    environment:
+      POSTGRES_DB: ${DB_NAME:-postgres}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    deploy:
+      resources:
+        limits:
+          memory: ${DB_LIMITS_MEMORY:-2048}
+        reservations:
+          memory: ${DB_LIMITS_RESERVATIONS:-1024}
+      restart_policy:
+        <<: *default_restart_policy
+    ports:
+      - "${DB_PORT_OUT}:${DB_PORT}"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+
+volumes:
+  db-data:
