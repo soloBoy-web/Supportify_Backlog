@@ -11,7 +11,7 @@ def price(request):
     return render(request=request, template_name="app_main/price.html", context={})
 
 def settings(request):
-    return HttpResponse("<p> Третий запрос </p>")
+    return HttpResponse("<p> До настройка в будущем!!! </p>")
 
 def contact(request):
     return render(request=request, template_name="app_main/contact.html", context={})
