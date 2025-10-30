@@ -3,7 +3,6 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import DatabaseError, IntegrityError
 import logging
@@ -14,9 +13,12 @@ import json
 
 logger = logging.getLogger(__name__)
 
-
 def handle_exception(view_func):
-    """Декоратор для обработки исключений"""
+    """Функциональность:
+    Перехватывает все исключения в любой view-функции
+    Логирует ошибку с именем функции.
+    Показывает сообщение пользователю через Django messages
+    Рендерит страницу ошибки с информацией об исключении"""
 
     def wrapper(request, *args, **kwargs):
         try:
@@ -373,7 +375,7 @@ def send_to_webhook(chat, message, user=None):
 
     try:
         payload = {
-            'text': message,
+            'content': message,
             'username': 'News Bot',
             'icon_emoji': ':newspaper:'
         }
