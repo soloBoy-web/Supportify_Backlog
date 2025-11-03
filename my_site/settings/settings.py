@@ -1,30 +1,15 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv  # Импортируем библиотеку для работы с .env файлами
+from dotenv import load_dotenv  
 
 
-
-# Загрузка переменных из .env файла
-# Теперь все секретные данные хранятся в отдельном файле, а не в коде
 load_dotenv()
-
-# Пути внутри проекта собираются так: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# ВНИМАНИЕ БЕЗОПАСНОСТИ: храните секретный ключ в секрете в продакшене!
-# Берем секретный ключ из переменных окружения, а не из кода
 SECRET_KEY = os.getenv('SECRET_KEY')
-
-# ВНИМАНИЕ БЕЗОПАСНОСТИ: не запускайте с DEBUG = True в продакшене!
-# Преобразуем строку 'True' в булево значение True
 DEBUG = os.getenv('DEBUG') == 'True'
-
-# Берем список разрешенных хостов из .env файла и разбиваем по запятым
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 
-# Определение установленных приложений
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -36,7 +21,7 @@ INSTALLED_APPS = [
     'app_next',
 ]
 
-# Промежуточное программное обеспечение (middleware)
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -47,10 +32,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Корневая конфигурация URL
+
 ROOT_URLCONF = 'settings.urls'
 
-# Настройки шаблонов
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -66,24 +51,30 @@ TEMPLATES = [
     },
 ]
 
-# WSGI приложение
+
 WSGI_APPLICATION = 'settings.wsgi.application'
 
 
-# База данных (PostgreSQL)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'postgres'),
-        'USER': os.environ.get('DB_USER', 'postgres'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'postgres'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('DB_NAME', 'postgres'),
+            'USER': os.environ.get('DB_USER', 'postgres'),
+            'PASSWORD': os.environ.get('DB_PASSWORD', 'postgres'),
+            'HOST': os.environ.get('DB_HOST', 'localhost'),
+            'PORT': os.environ.get('DB_PORT', '5432'),
+        }
+    }
 
 
-# Валидация паролей
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -100,28 +91,22 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Язык и временная зона
-LANGUAGE_CODE = 'en-us'  # Код языка (можно поменять на 'ru-ru')
-TIME_ZONE = 'UTC'        # Временная зона
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'UTC'
 
-USE_I18N = True  # Включение интернационализации
-USE_TZ = True    # Использование временных зон
+USE_I18N = True
+USE_TZ = True
 
-
-# Статические файлы (CSS, JavaScript, Images)
-# Настройки статических файлов
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Дополнительные директории со статикой
+
 STATICFILES_DIRS = [
 ]
 
-# Для production
+
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
-
-# Автоматическое поле по умолчанию для первичных ключей
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
