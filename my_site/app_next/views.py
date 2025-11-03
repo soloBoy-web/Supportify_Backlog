@@ -11,7 +11,9 @@ from .models import Chat, MessageLog
 import requests
 import json
 
+
 logger = logging.getLogger(__name__)
+
 
 def handle_exception(view_func):
     def wrapper(request, *args, **kwargs):
@@ -26,7 +28,6 @@ def handle_exception(view_func):
 
 
 def index(request):
-    """Главная страница"""
     try:
         active_chats_count = Chat.objects.filter(is_active=True).count()
         total_messages = MessageLog.objects.count()
@@ -104,7 +105,6 @@ def login_view(request):
 
 @handle_exception
 def welcome_view(request):
-    """Страница приветствия после регистрации"""
     if not request.user.is_authenticated:
         messages.warning(request, 'Пожалуйста, войдите в систему')
         return redirect('app_next:login')
@@ -135,7 +135,7 @@ def send_message_view(request):
             links_text = request.POST.get('links', '').strip()
             selected_chats = request.POST.getlist('chats')
 
-            # Валидация входных данных
+
             if not message_text and not links_text:
                 messages.error(request, 'Введите сообщение или ссылки')
                 return render(request, 'app_next/send_message.html', {
@@ -242,7 +242,7 @@ def format_message_with_links(message_text, links_text):
         return full_message
     except Exception as e:
         logger.error(f"Error formatting message: {str(e)}")
-        return message_text  # Возвращаем оригинальное сообщение в случае ошибки
+        return message_text
 
 
 def send_to_chat(chat, message, user=None):
@@ -339,7 +339,6 @@ def send_to_telegram(chat, message, user=None):
     except json.JSONDecodeError:
         raise Exception("Invalid response from Telegram API")
     except Exception as e:
-        # Для любых других ошибок
         raise Exception(f"Telegram error: {str(e)}")
 
 
