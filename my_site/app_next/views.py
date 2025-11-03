@@ -14,12 +14,6 @@ import json
 logger = logging.getLogger(__name__)
 
 def handle_exception(view_func):
-    """Функциональность:
-    Перехватывает все исключения в любой view-функции
-    Логирует ошибку с именем функции.
-    Показывает сообщение пользователю через Django messages
-    Рендерит страницу ошибки с информацией об исключении"""
-
     def wrapper(request, *args, **kwargs):
         try:
             return view_func(request, *args, **kwargs)
@@ -63,8 +57,6 @@ def index(request):
 def register_view(request):
     if request.user.is_authenticated:
         return redirect('app_next:welcome')
-
-    # Всегда создаем форму, но для POST с данными
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -72,7 +64,6 @@ def register_view(request):
             login(request, user)
             messages.success(request, f'Аккаунт создан! Добро пожаловать, {user.username}!')
             return redirect('app_next:welcome')
-        # Если форма невалидна, продолжаем с той же формой
     else:
         form = CustomUserCreationForm()
 
@@ -135,7 +126,6 @@ def logout_view(request):
 @require_http_methods(["GET", "POST"])
 @handle_exception
 def send_message_view(request):
-    """Страница отправки сообщений"""
     try:
         chats = Chat.objects.filter(is_active=True)
         results = []
@@ -160,10 +150,8 @@ def send_message_view(request):
                     'results': results
                 })
 
-            # Формируем полное сообщение
             full_message = format_message_with_links(message_text, links_text)
 
-            # Отправляем в выбранные чаты
             for chat_id in selected_chats:
                 try:
                     chat = Chat.objects.get(id=chat_id, is_active=True)
@@ -197,7 +185,6 @@ def send_message_view(request):
 @require_http_methods(["GET", "POST"])
 @handle_exception
 def send_to_all_chats_view(request):
-    """Отправка сообщения во все активные чаты"""
     try:
         chats = Chat.objects.filter(is_active=True)
         results = []
@@ -212,11 +199,8 @@ def send_to_all_chats_view(request):
                     'chats': chats,
                     'results': results
                 })
-
-            # Формируем полное сообщение
             full_message = format_message_with_links(message_text, links_text)
 
-            # Отправляем во все активные чаты
             for chat in chats:
                 try:
                     result = send_to_chat(chat, full_message, request.user)
@@ -245,7 +229,6 @@ def send_to_all_chats_view(request):
 
 
 def format_message_with_links(message_text, links_text):
-    """Форматирование сообщения со ссылками с обработкой ошибок"""
     try:
         full_message = message_text
         if links_text:
@@ -263,7 +246,6 @@ def format_message_with_links(message_text, links_text):
 
 
 def send_to_chat(chat, message, user=None):
-    """Вспомогательная функция для отправки сообщения в конкретный чат"""
     try:
         if not message or not message.strip():
             raise ValueError("Пустое сообщение")
@@ -288,8 +270,6 @@ def send_to_chat(chat, message, user=None):
     except Exception as e:
         error_msg = f"Неизвестная ошибка: {str(e)}"
         logger.error(f"Unexpected error sending to {chat.name}: {error_msg}")
-
-    # Логируем ошибку в базу данных
     try:
         MessageLog.objects.create(
             chat=chat,
@@ -311,10 +291,7 @@ def send_to_chat(chat, message, user=None):
 def send_to_telegram(chat, message, user=None):
     if not chat.bot_token or not chat.chat_id:
         raise ValueError("Missing bot token or chat ID for Telegram")
-
-    response = None  # Явно инициализируем
-    response_data = None
-
+    response = None
     try:
         url = f"https://api.telegram.org/bot{chat.bot_token}/sendMessage"
         payload = {
@@ -348,7 +325,6 @@ def send_to_telegram(chat, message, user=None):
     except requests.exceptions.Timeout:
         raise Exception("Telegram API timeout (15 seconds)")
     except requests.exceptions.HTTPError as e:
-        # Теперь response гарантированно существует
         if response is not None:
             if response.status_code == 404:
                 raise Exception("Chat not found or bot token invalid")
@@ -370,9 +346,7 @@ def send_to_telegram(chat, message, user=None):
 def send_to_webhook(chat, message, user=None):
     if not chat.webhook_url:
         raise ValueError("No webhook URL configured")
-
-    response = None  # Явно инициализируем
-
+    response = None
     try:
         payload = {
             'content': message,
@@ -404,7 +378,6 @@ def send_to_webhook(chat, message, user=None):
     except requests.exceptions.Timeout:
         raise Exception("Webhook timeout (15 seconds)")
     except requests.exceptions.HTTPError as e:
-        # Теперь response гарантированно существует
         if response is not None:
             if response.status_code == 404:
                 raise Exception("Webhook URL not found")
@@ -424,7 +397,6 @@ def send_to_webhook(chat, message, user=None):
 
 @handle_exception
 def message_history(request):
-    """История отправленных сообщений"""
     try:
         logs = MessageLog.objects.select_related('chat', 'user').all()[:50]
         return render(request, 'app_next/history.html', {'logs': logs})
@@ -436,7 +408,6 @@ def message_history(request):
 
 @require_http_methods(["POST"])
 def api_send_message(request):
-    """API endpoint для отправки сообщений"""
     try:
         if request.content_type != 'application/json':
             return JsonResponse({'error': 'Content-Type must be application/json'}, status=415)
@@ -448,8 +419,6 @@ def api_send_message(request):
 
         if not message and not links:
             return JsonResponse({'error': 'No message or links provided'}, status=400)
-
-        # Формируем полное сообщение
         full_message = message
         if links:
             if not isinstance(links, list):
@@ -462,8 +431,6 @@ def api_send_message(request):
 
         results = {}
         successful_sends = 0
-        total_chats = 0
-
         try:
             if chat_ids:
                 if not isinstance(chat_ids, list):
@@ -479,16 +446,13 @@ def api_send_message(request):
                 results[chat.name] = result
                 if result['status'] == 'success':
                     successful_sends += 1
-
             return JsonResponse({
                 'message': f'Message processing completed. Successfully sent to {successful_sends}/{total_chats} chats.',
                 'results': results
             })
-
         except DatabaseError as e:
             logger.error(f"Database error in API: {str(e)}")
             return JsonResponse({'error': 'Database error'}, status=500)
-
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
     except Exception as e:
