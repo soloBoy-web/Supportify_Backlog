@@ -1,17 +1,23 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-
+from django.contrib.auth.decorators import login_required
 
 
 
 def index(request):
     return render(request=request, template_name="app_main/index.html", context={})
 
+
 def price(request):
     return render(request=request, template_name="app_main/price.html", context={})
 
+
+@login_required
 def settings(request):
-    return HttpResponse("<p> До настройка в будущем!!! </p>")
+    context = {
+        'user': request.user,
+    }
+    return render(request, 'app_main/user_settings.html', context)
+
 
 def contact(request):
     return render(request=request, template_name="app_main/contact.html", context={})
